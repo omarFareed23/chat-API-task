@@ -1,0 +1,3 @@
+json.application_token resource.application_token
+json.chat_number resource.number
+json.messages_count resource.messages_count
