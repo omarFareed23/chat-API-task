@@ -12,8 +12,8 @@
 
 ActiveRecord::Schema[7.0].define(version: 2024_09_03_123033) do
   create_table "applications", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "token"
-    t.string "name"
+    t.string "token", null: false
+    t.string "name", null: false
     t.integer "chats_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

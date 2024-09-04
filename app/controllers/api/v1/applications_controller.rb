@@ -27,6 +27,11 @@ class Api::V1::ApplicationsController < Api::BaseController
   def show
   end
 
+
+  def destroy
+    @application.destroy
+  end
+
   private
 
   def application_params
