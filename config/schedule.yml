@@ -1,0 +1,9 @@
+sync_applications_count:
+  cron: '* * * * *'
+  class: 'SyncApplicationsCount'
+  queue: default
+
+sync_chats_count:
+  cron: '* * * * *'
+  class: 'SyncChatsCount'
+  queue: default

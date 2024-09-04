@@ -7,18 +7,23 @@ class Api::V1::Applications::ChatsController < Api::BaseController
   end
 
   def create
-    @chat = @application.chats.new
+    # @chat = @application.chats.new
+    # @chat_number = REDIS.incr(Redis::RedisKeys::CHAT_COUNT_KEY % { application_token: @application.token })
+    # @chat.number = @chat_number
+    # unless @chat.save
+    #   render json: @chat.errors, status: :unprocessable_entity
+    # end
     @chat_number = REDIS.incr(Redis::RedisKeys::CHAT_COUNT_KEY % { application_token: @application.token })
-    @chat.number = @chat_number
-    unless @chat.save
-      render json: @chat.errors, status: :unprocessable_entity
-    end
+    ChatWriter.perform_later(@application.token, @chat_number)
   end
 
   def destroy
     @chat.destroy!
+    REDIS.decr(Redis::RedisKeys::CHAT_NUMS_KEY % { application_token: @application.token })
+    REDIS.sadd(Redis::RedisKeys::UPDATED_APPLICATIONS_SET, @application.token)
     head :no_content
   end
+
 
   def show
 
@@ -27,7 +32,7 @@ class Api::V1::Applications::ChatsController < Api::BaseController
   private
 
   def find_chat
-    @chat = @application.chats.find_by(number: params[:chat_number])
+    @chat = @application.chats.find_by(number: params[:number])
     p @chat
     unless @chat
       render json: { error: 'Chat not found' }, status: :not_found

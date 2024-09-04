@@ -7,7 +7,15 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :applications, only: [:index, :create, :update, :show, :destroy], param: :token do
         scope module: :applications do
-          resources :chats, only: [:index, :create, :show, :destroy], param: :chat_number
+          resources :chats, only: [:index, :create, :show, :destroy], param: :number do
+            scope module: :chats do
+              resources :messages, only: [:index, :create, :show, :destroy], param: :message_number do
+                collection do
+                  get :search
+                end
+              end
+            end
+          end
         end
       end
     end

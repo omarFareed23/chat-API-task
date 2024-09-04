@@ -3,3 +3,5 @@
   - default
   - chats
   - messages
+:redis:
+  url: redis://redis:6379/0
