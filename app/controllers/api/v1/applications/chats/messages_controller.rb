@@ -35,7 +35,7 @@ class Api::V1::Applications::Chats::MessagesController < Api::BaseController
       # p params[:query]
       # byebug
       @messages = Message.search2(@chat.id, params[:query])
-      render json: @messages.results
+      render json: @messages
     else
       render json: { error: 'No query provided' }, status: :bad_request
     end
